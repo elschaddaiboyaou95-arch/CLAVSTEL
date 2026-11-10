@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Factures - Facturation</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: navbar('factures')}"></div>
+<main class="container">
+    <h1>Gestion des factures</h1>
+    <div class="success" th:if="${success}" th:text="${success}"></div>
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <div class="card">
+        <div class="toolbar">
+            <form th:action="@{/factures}" method="get">
+                <input type="text" name="q" th:value="${q}" placeholder="Rechercher par objet ou nom du client...">
+            </form>
+            <a class="btn" th:href="@{/factures/nouveau}">+ Nouvelle facture</a>
+        </div>
+        <table>
+            <thead>
+            <tr><th>N°</th><th>Client</th><th>Objet</th><th>Montant</th><th style="width:170px">Actions</th></tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(factures)}"><td colspan="5" class="muted">Aucune facture trouvée.</td></tr>
+            <tr th:each="f : ${factures}">
+                <td th:text="${f.idFact}">1</td>
+                <td th:text="${f.client.nom}">Client</td>
+                <td th:text="${f.objet}">Objet</td>
+                <td class="num" th:text="${#numbers.formatDecimal(f.montant, 1, 'WHITESPACE', 0, 'POINT')} + ' FCFA'">0 FCFA</td>
+                <td>
+                    <a class="btn small" th:href="@{/factures/{id}/modifier(id=${f.idFact})}">Modifier</a>
+                    <form class="inline" method="post" th:action="@{/factures/{id}/supprimer(id=${f.idFact})}"
+                          onsubmit="return confirm('Supprimer cette facture ?');">
+                        <button class="btn small danger" type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

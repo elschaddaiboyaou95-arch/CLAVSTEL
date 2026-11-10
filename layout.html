@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<!-- Barre de navigation commune a toutes les pages -->
+<header th:fragment="navbar(active)" class="navbar">
+    <div class="brand">Facturation</div>
+    <nav>
+        <a th:href="@{/clients}" th:classappend="${active == 'clients'} ? 'active'">Clients</a>
+        <a th:href="@{/factures}" th:classappend="${active == 'factures'} ? 'active'">Factures</a>
+    </nav>
+    <div class="user">
+        <span><span sec:authentication="name">admin</span> (Gérant)</span>
+        <form th:action="@{/logout}" method="post" class="inline">
+            <button class="btn small secondary" type="submit">Déconnexion</button>
+        </form>
+    </div>
+</header>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clients - Facturation</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: navbar('clients')}"></div>
+<main class="container">
+    <h1>Gestion des clients</h1>
+    <div class="success" th:if="${success}" th:text="${success}"></div>
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <div class="card">
+        <div class="toolbar">
+            <form th:action="@{/clients}" method="get">
+                <input type="text" name="q" th:value="${q}" placeholder="Rechercher par nom ou téléphone...">
+            </form>
+            <a class="btn" th:href="@{/clients/nouveau}">+ Nouveau client</a>
+        </div>
+        <table>
+            <thead>
+            <tr><th>N°</th><th>Nom</th><th>Téléphone</th><th style="width:170px">Actions</th></tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(clients)}"><td colspan="4" class="muted">Aucun client trouvé.</td></tr>
+            <tr th:each="c : ${clients}">
+                <td th:text="${c.idClient}">1</td>
+                <td th:text="${c.nom}">Nom</td>
+                <td th:text="${c.tel}">770000000</td>
+                <td>
+                    <a class="btn small" th:href="@{/clients/{id}/modifier(id=${c.idClient})}">Modifier</a>
+                    <form class="inline" method="post" th:action="@{/clients/{id}/supprimer(id=${c.idClient})}"
+                          onsubmit="return confirm('Supprimer ce client et toutes ses factures ?');">
+                        <button class="btn small danger" type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

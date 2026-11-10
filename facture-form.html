@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Facture - Facturation</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: navbar('factures')}"></div>
+<main class="container">
+    <h1>Gestion des factures</h1>
+    <div class="card">
+        <h2 th:text="${facture.idFact == null} ? 'Nouvelle facture' : 'Modifier la facture'">Nouvelle facture</h2>
+        <form th:action="@{/factures/save}" th:object="${facture}" method="post">
+            <input type="hidden" th:field="*{idFact}">
+            <div class="field half">
+                <label for="client">Client</label>
+                <select id="client" th:field="*{client.idClient}">
+                    <option value="">-- Choisir un client --</option>
+                    <option th:each="c : ${clients}" th:value="${c.idClient}" th:text="${c.nom}">Client</option>
+                </select>
+                <div class="field-error" th:if="${#fields.hasErrors('client')}" th:errors="*{client}"></div>
+            </div>
+            <div class="field half">
+                <label for="montant">Montant (FCFA)</label>
+                <input type="text" id="montant" th:field="*{montant}">
+                <div class="field-error" th:if="${#fields.hasErrors('montant')}" th:errors="*{montant}"></div>
+            </div>
+            <div class="field full">
+                <label for="objet">Objet</label>
+                <input type="text" id="objet" th:field="*{objet}">
+                <div class="field-error" th:if="${#fields.hasErrors('objet')}" th:errors="*{objet}"></div>
+            </div>
+            <button class="btn" type="submit">Enregistrer</button>
+            <a class="btn secondary" th:href="@{/factures}">Annuler</a>
+        </form>
+    </div>
+</main>
+</body>
+</html>

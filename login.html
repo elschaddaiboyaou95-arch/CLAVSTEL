@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion - Facturation</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="login-wrap">
+    <div class="card">
+        <h1>Connexion</h1>
+        <p class="muted">Espace gérant - Gestion de la facturation</p>
+        <div class="error" th:if="${param.error}">Login ou mot de passe incorrect</div>
+        <div class="success" th:if="${param.logout}">Vous avez été déconnecté</div>
+        <form th:action="@{/login}" method="post">
+            <div class="field full">
+                <label for="username">Login</label>
+                <input type="text" id="username" name="username" autofocus required>
+            </div>
+            <div class="field full">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button class="btn full-btn" type="submit">Se connecter</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
